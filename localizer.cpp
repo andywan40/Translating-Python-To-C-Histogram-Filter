@@ -40,20 +40,13 @@ using namespace std;
            0.25 0.25
 */
 vector< vector <float> > initialize_beliefs(vector< vector <char> > grid) {
-	vector< vector <float> > newGrid;
+
 	int height = grid.size();
 	int width = grid[0].size();
 	int area = height * width;
 	float beliefPerCell = 1.0/area;
-	vector<float> row;
-
-	for(int i = 0; i < height; i++){
-		row.clear();
-		for(int j = 0; j < width; j++){
-			row.push_back(beliefPerCell);
-		}
-		newGrid.push_back(row);
-	}
+	
+	vector< vector <float> > newGrid(height, vector<float>(width, beliefPerCell));
 	
 	return newGrid;
 }
@@ -167,7 +160,7 @@ vector< vector <float> > sense(char color,
 {
 	vector< vector <float> > newGrid;
 	vector<float> row;
-	int sumNewBeliefs = 0;
+	
 	for(int i = 0; i < beliefs.size(); i++){
 		row.clear();
 		for(int j = 0; j < beliefs[i].size();j++){
@@ -179,18 +172,7 @@ vector< vector <float> > sense(char color,
 		}
 		newGrid.push_back(row);
 	}
-	
-	for(int i = 0; i < newGrid.size(); i++){
-		for(int j = 0; j< newGrid[i].size(); j++){
-			sumNewBeliefs += newGrid[i][j];
-		}
-	}
-    
-	for(int i = 0; i < newGrid.size(); i++){
-		for(int j = 0; j< newGrid[i].size(); j++){
-			newGrid[i][j] /= sumNewBeliefs;
-		}
-	}
+
 
 	return normalize(newGrid);
 }
